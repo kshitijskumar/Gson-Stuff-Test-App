@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getFewWithFewDefaults() {
+        Log.d("GsonStuffResponse", "response will be: { 'someName' : 'someone' }")
         retrofitHelper("getFewWithFewDefaults") { api.getFewWithFewDefaults() }
     }
 
@@ -63,7 +64,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<T>, t: Throwable) {
-                TODO("Not yet implemented")
+                t.printStackTrace()
             }
         })
     }

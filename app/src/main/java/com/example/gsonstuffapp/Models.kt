@@ -17,11 +17,7 @@ data class OnlyNumberDefaultResponse(
 data class InstanceCreatorResponse(
     @SerializedName("someName") val name: String,
     @SerializedName("someNumber") val number: Int
-) : InstanceCreator<InstanceCreatorResponse> {
-    override fun createInstance(type: Type?): InstanceCreatorResponse {
-        return InstanceCreatorResponse("unknown", 10)
-    }
-}
+)
 
 data class BackingFieldResponse(
     @SerializedName("someName") val name: String,
@@ -29,5 +25,11 @@ data class BackingFieldResponse(
 ) {
     val actualNumber: Int get() {
         return if (number == 0) return 10 else number
+    }
+}
+
+class InstanceCreatorResponseAdapter : InstanceCreator<InstanceCreatorResponse> {
+    override fun createInstance(type: Type?): InstanceCreatorResponse {
+        return InstanceCreatorResponse("unknown", 10)
     }
 }

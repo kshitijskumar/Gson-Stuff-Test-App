@@ -27,11 +27,27 @@ interface ApiService {
     fun getFewWithBackingFields() : Call<BackingFieldResponse>
 
     companion object {
+        private val gson = GsonBuilder()
+            .registerTypeAdapter(
+                InstanceCreatorResponse::class.java,
+                InstanceCreatorResponseAdapter()
+            ).create()
         private val retrofit = Retrofit.Builder()
             .baseUrl("https://gson-stuff-api.herokuapp.com/")
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().registerTypeAdapter(InstanceCreatorResponse::class.java, InstanceCreatorResponse("unknown", 10)).create()))
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
         fun getApiService() = retrofit.create(ApiService::class.java)
     }
+
+    /**
+     * Base url: https://gson-stuff-api.herokuapp.com/
+     *
+     * Responses:
+     *
+     * 1. getAllValues/ -> { "someName" : "someone", "someNumber" : 22 }
+     *
+     * 2. getOnlyName/ -> { "someName" : "someone" }
+     *
+     */
 }
