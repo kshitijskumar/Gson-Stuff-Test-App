@@ -48,5 +48,25 @@
         app:layout_constraintTop_toBottomOf="@id/btn3"
         android:textAllCaps="false"/>
 
+    <Button
+        android:id="@+id/btn5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="getFewWithInstanceCreator"
+        app:layout_constraintEnd_toEndOf="@id/btn4"
+        app:layout_constraintStart_toStartOf="@id/btn4"
+        app:layout_constraintTop_toBottomOf="@id/btn4"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btn6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="getFewWithBackingField"
+        app:layout_constraintEnd_toEndOf="@id/btn5"
+        app:layout_constraintStart_toStartOf="@id/btn5"
+        app:layout_constraintTop_toBottomOf="@id/btn5"
+        android:textAllCaps="false"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

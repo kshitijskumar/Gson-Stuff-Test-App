@@ -20,6 +20,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btn2).setOnClickListener { getAllWithFewDefaults() }
         findViewById<Button>(R.id.btn3).setOnClickListener { getFewWithAllDefaults() }
         findViewById<Button>(R.id.btn4).setOnClickListener { getFewWithFewDefaults() }
+        findViewById<Button>(R.id.btn5).setOnClickListener { getFewWithInstanceCreator() }
+        findViewById<Button>(R.id.btn6).setOnClickListener { getFewWithBackingField() }
+
     }
 
     private fun getAllWithAllDefaults() {
@@ -38,12 +41,24 @@ class MainActivity : AppCompatActivity() {
         retrofitHelper("getFewWithFewDefaults") { api.getFewWithFewDefaults() }
     }
 
+    private fun getFewWithInstanceCreator() {
+        retrofitHelper("getFewWithInstanceCreator") { api.getFewWithInstanceCreator() }
+    }
+
+    private fun getFewWithBackingField() {
+        retrofitHelper("getFewWithBackingField") { api.getFewWithBackingFields() }
+    }
+
     private fun <T> retrofitHelper(functionName: String, apiCall: () -> Call<T>) {
 
         apiCall.invoke().enqueue(object : Callback<T> {
             override fun onResponse(call: Call<T>, response: Response<T>) {
                 if (response.isSuccessful && response.body() != null) {
-                    Log.d("GsonStuffResponse", "$functionName: ${response.body()}")
+                    if (response.body() is BackingFieldResponse) {
+                        Log.d("GsonStuffResponse", "$functionName: ${response.body()} with actual number: ${(response.body() as BackingFieldResponse).actualNumber}")
+                    } else {
+                        Log.d("GsonStuffResponse", "$functionName: ${response.body()}")
+                    }
                 }
             }
 
