@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import androidx.lifecycle.lifecycleScope
+import com.example.gsonstuffapp.random.SessionCacheStuff
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -11,6 +15,7 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
 
     private val api by lazy { ApiService.getApiService() }
+    private val cache = SessionCacheStuff()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btn4).setOnClickListener { getFewWithFewDefaults() }
         findViewById<Button>(R.id.btn5).setOnClickListener { getFewWithInstanceCreator() }
         findViewById<Button>(R.id.btn6).setOnClickListener { getFewWithBackingField() }
+        findViewById<Button>(R.id.btn7).setOnClickListener { cacheStuff() }
 
     }
 
@@ -48,6 +54,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun getFewWithBackingField() {
         retrofitHelper("getFewWithBackingField") { api.getFewWithBackingFields() }
+    }
+
+    private fun cacheStuff() {
+        lifecycleScope.launch {
+            val resp = cache.execute(
+                { api.getAllWithAllDefaultsForCache() },
+                SessionCacheStuff.CacheType.Network,
+                "ALL_CACHE"
+            )
+            Log.d("CacheStuff", "flow colle: ${resp.hashCode()}")
+            resp.collect {
+                Log.d("CacheStuff", "response: $it from ${Thread.currentThread().name}")
+            }
+        }
     }
 
     private fun <T> retrofitHelper(functionName: String, apiCall: () -> Call<T>) {
