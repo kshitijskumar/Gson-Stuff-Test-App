@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="100dp"
         android:textAllCaps="false"/>
 
     <Button
@@ -68,5 +68,24 @@
         app:layout_constraintTop_toBottomOf="@id/btn5"
         android:textAllCaps="false"/>
 
+    <Button
+        android:id="@+id/btn7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="getOneNullWithNoDefaults"
+        app:layout_constraintEnd_toEndOf="@id/btn6"
+        app:layout_constraintStart_toStartOf="@id/btn6"
+        app:layout_constraintTop_toBottomOf="@id/btn6"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btn8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="getOneNullWithAllDefaults"
+        app:layout_constraintEnd_toEndOf="@id/btn7"
+        app:layout_constraintStart_toStartOf="@id/btn7"
+        app:layout_constraintTop_toBottomOf="@id/btn7"
+        android:textAllCaps="false"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

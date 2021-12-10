@@ -7,6 +7,7 @@ import android.widget.Button
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +23,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btn4).setOnClickListener { getFewWithFewDefaults() }
         findViewById<Button>(R.id.btn5).setOnClickListener { getFewWithInstanceCreator() }
         findViewById<Button>(R.id.btn6).setOnClickListener { getFewWithBackingField() }
+        findViewById<Button>(R.id.btn7).setOnClickListener { getOneNullWithNoDefault() }
+        findViewById<Button>(R.id.btn8).setOnClickListener { getOneNullWithAllDefaults() }
+
 
     }
 
@@ -50,6 +54,14 @@ class MainActivity : AppCompatActivity() {
         retrofitHelper("getFewWithBackingField") { api.getFewWithBackingFields() }
     }
 
+    private fun getOneNullWithNoDefault() {
+        retrofitHelper("getOneNullWithNoDefaults") { api.getOneNullWithNoDefaults() }
+    }
+
+    private fun getOneNullWithAllDefaults() {
+        retrofitHelper("getOneNullWithAllDefaults") { api.getOneNullWithAllDefaults() }
+    }
+
     private fun <T> retrofitHelper(functionName: String, apiCall: () -> Call<T>) {
 
         apiCall.invoke().enqueue(object : Callback<T> {
@@ -59,12 +71,21 @@ class MainActivity : AppCompatActivity() {
                         Log.d("GsonStuffResponse", "$functionName: ${response.body()} with actual number: ${(response.body() as BackingFieldResponse).actualNumber}")
                     } else {
                         Log.d("GsonStuffResponse", "$functionName: ${response.body()}")
+                        if (response.body() is OnlyNullResponse) {
+                            try {
+                                Log.d("GsonStuffResponse", "name: ${(response.body() as OnlyNullResponse).name.length}")
+//                                val a = (response.body() as OnlyNullResponse).copy()
+                            } catch (e: Exception) {
+                                Log.d("GsonStuffResponse", "name error: $e")
+                            }
+                        }
                     }
                 }
             }
 
             override fun onFailure(call: Call<T>, t: Throwable) {
                 t.printStackTrace()
+                Log.d("GsonStuffResponse", "some error: $t")
             }
         })
     }

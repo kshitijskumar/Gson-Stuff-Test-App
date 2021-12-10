@@ -2,6 +2,7 @@ package com.example.gsonstuffapp
 
 import com.google.gson.GsonBuilder
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -15,9 +16,6 @@ interface ApiService {
     fun getAllWithFewDefaults() : Call<OnlyNumberDefaultResponse>
 
     @GET("getOnlyName")
-    fun getFewWithAllDefaults() : Call<AllDefaultsResponse>
-
-    @GET("getOnlyName")
     fun getFewWithFewDefaults() : Call<OnlyNumberDefaultResponse>
 
     @GET("getOnlyName")
@@ -26,6 +24,15 @@ interface ApiService {
     @GET("getOnlyName")
     fun getFewWithBackingFields() : Call<BackingFieldResponse>
 
+    @GET("getOnlyName")
+    fun getFewWithAllDefaults() : Call<AllDefaultsResponse>
+
+    @GET("oneNull")
+    fun getOneNullWithNoDefaults() : Call<OnlyNullResponse>
+
+    @GET("oneNull")
+    fun getOneNullWithAllDefaults() : Call<OnlyNullAllDefResponse>
+
     companion object {
         private val gson = GsonBuilder()
             .registerTypeAdapter(
@@ -33,7 +40,7 @@ interface ApiService {
                 InstanceCreatorResponseAdapter()
             ).create()
         private val retrofit = Retrofit.Builder()
-            .baseUrl("https://gson-stuff-api.herokuapp.com/")
+            .baseUrl("https://demo-spring-boot-dep.herokuapp.com/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
